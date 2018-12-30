@@ -1,0 +1,88 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    font-family: "Iosevka Term Web", monospace;
+}
+
+body {
+    margin: 0; padding: 25px 25px;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: flex-start;
+}
+
+.password {
+    display: flex; align-items: center; margin-bottom: 10px; width: 100%
+}
+code {
+    font: inherit;
+    font-size: 26px;
+    display: block;
+    user-select: all;
+    -ms-user-select: all;
+    -moz-user-select: all;
+    -webkit-user-select: all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    flex: 1;
+    overflow: hidden;
+    min-height: 32px;
+}
+@media screen and (min-width: 60rem) { body { padding: 25px 50px; } code { max-width: 50vw; } }
+
+.selection {
+    font-size: 14px;
+    display: flex; align-items: flex-start;
+    margin-bottom: 5px;
+}
+.selection div { display: flex; flex-wrap: wrap; }
+.selection strong { padding: 2px 3px; }
+.selection a {
+    background: #e0e0e0;
+    padding: 2px 3px; padding-right: 0;
+    margin-left: 3px; margin-bottom: 3px;
+    border-radius: 2px;
+    cursor: pointer;
+    display: inline-flex;
+    overflow: hidden;
+}
+.selection a.active {
+    background: #000; color: #fff;
+}
+.selection a:hover {
+    opacity: 0.7;
+}
+.selection kbd {
+    font: inherit;
+    font-size: 12px;
+    background: rgba(180,180,180,0.7);
+    padding: 4px 4px;
+    margin: -2px 0;
+    margin-left: 3px;
+}
+
+.update {
+    cursor: pointer;
+    opacity: 0.3;
+    margin-right: 10px;
+    flex: none;
+    transform: rotate(360deg);
+}
+.update:hover {
+    opacity: 0.5;
+}
+.update.working {
+    animation: rotate 0.4s linear;
+}
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+a.link { background: transparent; padding-left: 0; color: #08f; }

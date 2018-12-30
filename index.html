@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>password generator</title>
+        <meta name="description" content="The probably user-friendliest password generator out there - just press Ctrl+C. Generates random strings, gibberish (pronounceable passwords), or 'correct-horse-battery-staple' passphrases in English or German.">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="./favicon.ico">
+
+        <link rel="stylesheet" href="./iosevka/webfont.css">
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <main style="width: 100%">
+            <div class="password">
+                <img class="update" onclick="update()" src="data:image/svg+xml,<svg height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path class='heroicon-ui' d='M6 18.7V21a1 1 0 0 1-2 0v-5a1 1 0 0 1 1-1h5a1 1 0 1 1 0 2H7.1A7 7 0 0 0 19 12a1 1 0 1 1 2 0 9 9 0 0 1-15 6.7zM18 5.3V3a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1h-5a1 1 0 0 1 0-2h2.9A7 7 0 0 0 5 12a1 1 0 1 1-2 0 9 9 0 0 1 15-6.7z'/></svg>">
+                <code></code>
+            </div>
+            <div class="selection">
+                <strong>Generator:</strong>
+                <div>
+                    <a data-type="random" onclick="setType('random')">random <kbd>A</kbd></a>
+                    <a data-type="gibberish" onclick="setType('gibberish')">gibberish <kbd>B</kbd></a>
+                    <a data-type="passphrase-en" onclick="setType('passphrase-en')">passphrase-en <kbd>C</kbd></a>
+                    <a data-type="passphrase-de" onclick="setType('passphrase-de')">passphrase-de <kbd>D</kbd></a>
+                </div>
+            </div>
+            <div class="selection">
+                <strong>Strength:&nbsp;</strong>
+                <div>
+                    <a data-strength="1" onclick="setStrength(1)" title="Equivalent to 8 random characters">easy <kbd>1</kbd></a>
+                    <a data-strength="2" onclick="setStrength(2)" title="Equivalent to 12 random characters">medium <kbd>2</kbd></a>
+                    <a data-strength="3" onclick="setStrength(3)" title="Equivalent to 18 random characters">strong <kbd>3</kbd></a>
+                    <a data-strength="4" onclick="setStrength(4)" title="Equivalent to 24 random characters">extreme <kbd>4</kbd></a>
+                </div>
+            </div>
+            <div class="selection">
+                <a href="https://github.com/moqmar/pag" class="link">Source &amp; Command-Line Application</a>
+            </div>
+        </main>
+
+    <script src="./generate.js"></script>
+    <script src="./script.js"></script>
+    </body>
+</html>
