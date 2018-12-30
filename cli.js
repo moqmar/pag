@@ -51,7 +51,7 @@ function help() {
             replacements[i][1](); break;
         }
     }
-    args = args.replace(/[1234]/, x => strength = parseInt(x));
+    args = args.replace(/[1234]/, x => { strength = parseInt(x); return ""; });
 
     // Too many arguments!
     if (args.replace(/\s+/g, "").length) return help();
