@@ -8,10 +8,11 @@ function help() {
     console.log("Usage: " + process.argv0 + " [type][strength] [-c]");
     console.log();
     console.log("  [type]");
-    console.log("    A  random");
-    console.log("    B  gibberish (default)");
-    console.log("    C  passphrase-en");
+    console.log("    A  alphanum");
+    console.log("    B  random");
+    console.log("    C  gibberish (default)");
     console.log("    D  passphrase-de");
+    console.log("    E  passphrase-en");
     console.log();
     console.log("  [strength]");
     console.log("    1|2|3|4  complexity of the password (default: 2)");
@@ -19,7 +20,7 @@ function help() {
     console.log("  [-c]");
     console.log("    Copy to clipboard. Only works on Linux with xclip installed.");
     console.log();
-    console.log("Example: " + process.argv0 + " a2 -c");
+    console.log("Example: " + process.argv0 + " b2 -c");
 }
 
 (async function() {
@@ -37,14 +38,16 @@ function help() {
     args = args.join(" ").toLowerCase();
 
     let replacements = [
+        ["alphanum", () => type = "alphanum"],
         ["random", () => type = "random"],
         ["gibberish", () => type = "gibberish"],
         ["passphrase-en", () => type = "passphrase-en"],
         ["passphrase-de", () => type = "passphrase-de"],
-        ["a", () => type = "random"],
-        ["b", () => type = "gibberish"],
-        ["c", () => type = "passphrase-en"],
+        ["a", () => type = "alphanum"],
+        ["b", () => type = "random"],
+        ["c", () => type = "gibberish"],
         ["d", () => type = "passphrase-de"],
+        ["e", () => type = "passphrase-en"],
     ]
     for (let i = 0; i < replacements.length; i++) {
         if (args != (args = args.replace(replacements[i][0], ""))) {

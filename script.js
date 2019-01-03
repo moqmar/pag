@@ -77,10 +77,11 @@ window.addEventListener("keydown", function(event) {
         case "2": setStrength(2); break;
         case "3": setStrength(3); break;
         case "4": setStrength(4); break;
-        case "A": case "a": setType("random"); break;
-        case "B": case "b": setType("gibberish"); break;
-        case "C": case "c": setType("passphrase-en"); break;
+        case "A": case "a": setType("alphanum"); break;
+        case "B": case "b": setType("random"); break;
+        case "C": case "c": setType("gibberish"); break;
         case "D": case "d": setType("passphrase-de"); break;
+        case "E": case "e": setType("passphrase-en"); break;
         case " ": update();
     }
 })

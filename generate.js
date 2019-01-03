@@ -2,7 +2,8 @@ let vocals = "aeiou";
 let consonants = "bcdfghjklmnpqrstvwxyz";
 let special = "0123456789!$%&/=()?*-.,;:_#+<>@";
 let separator = "-._,+!=@";
-let random = (vocals + vocals.toUpperCase() + consonants + consonants.toUpperCase() + special).split("");
+let random = vocals + vocals.toUpperCase() + consonants + consonants.toUpperCase() + special;
+let alphanum = vocals + vocals.toUpperCase() + consonants + consonants.toUpperCase() + "0123456789";
 
 const crypto = (typeof window === "undefined" ? {getRandomValues:(arr) => require("crypto").randomFillSync(arr)} : window.crypto);
 
@@ -38,13 +39,18 @@ function r(arr) {
 async function generate(type, strength) {
     let pw = "";
 
-    if (type == "random") {
-        let len = [10,16,32,48][strength-1];
+    if (type == "alphanum") {
+        let len = [10,16,24,32][strength-1];
+        for (let i = 0; i < len; i++) {
+            pw += r(alphanum);
+        }
+    } else if (type == "random") {
+        let len = [10,16,24,32][strength-1];
         for (let i = 0; i < len; i++) {
             pw += r(random);
         }
     } else if (type == "gibberish") {
-        let len = [10,16,32,48][strength-1];
+        let len = [10,16,24,32][strength-1];
         let nextWord = 0;
         let startType = randrange(0, 2);
         for (let i = 0; i < len; i++) {
@@ -60,7 +66,7 @@ async function generate(type, strength) {
             pw += c;
         }
     } else if (type.match(/^passphrase-/)) {
-        let len = [2,2,4,5][strength-1];
+        let len = [2,2,3,4][strength-1];
         for (let i = 0; i < len; i++) {
             let w = r(await getWords(type.substr(11)));
             for (let j = 0; j < (strength > 3 ? w.length : strength > 1 ? 1 : 0); j++) { // capitalize first letter randomly on strength 2 or 3, capitalize everything randomly for extreme passwords
