@@ -1,7 +1,32 @@
 #!/usr/bin/env node
 
-global.getWords = lang => require("./words/" + lang + ".json");
+const fs = require("fs"), path = require("path");
 const generate = require("./generate");
+global.getWords = async function(lang) {
+    const p = path.join(__dirname, "./words/" + lang + ".txt")
+    const s = fs.statSync(p);
+    const start = generate.randrange(0, s.size - 1024);
+    const r = fs.createReadStream(p, {
+        flags: 'r',
+        encoding: 'utf-8',
+        fd: null,
+        start: start,
+        end: start + 1023
+    });
+    let words = "";
+    let resolve, reject;
+    let pr = new Promise((res, rej) => { resolve = res; reject = rej })
+    r.on("data", function (chunk) {
+         words += chunk;
+    });
+    r.on("end", function() {
+        resolve(words.split("\n").slice(start == 0 ? 0 : 1, -1).filter(x => x.length));
+    });
+    r.on("error", function(err) {
+        reject(err);
+    });
+    return pr;
+}
 
 function help() {
     console.log("pag 1.0.0 - The probably user-friendliest password generator out there.")

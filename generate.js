@@ -85,4 +85,4 @@ async function generate(type, strength) {
     return pw;
 }
 
-if (typeof module !== "undefined") module.exports = generate;
+if (typeof module !== "undefined") { module.exports = generate; module.exports.randrange = randrange; }

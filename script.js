@@ -46,12 +46,12 @@ function update() {
 let wordList = {};
 async function getWords(lang) {
     if (wordList[lang] != null) return wordList[lang];
-    let r = await fetch("./words/" + lang + ".json", {
+    let r = await fetch("./words/" + lang + ".txt", {
         method: "HEAD"
     })
     if ((window.location.hash||"").match(/nochunks/) || (r.headers.get("accept-ranges")||"").match(/^$|^none$/)) {
         if ((window.location.hash||"").match(/nochunks/) || confirm("Passphrases require a word list. As this server doesn't support partial requests, the full list needs to be downloaded to generate passphrases.\n\nDownload size: " + (r.headers.get("content-length") / 1024 / 1024).toFixed(2) + " MB")) {
-            wordList[lang] = await fetch("./words/" + lang + ".json").then(r => r.json());
+            wordList[lang] = await fetch("./words/" + lang + ".txt").then(r => r.text()).then(t => t.split(/\n/).filter(x => x.length));
             return wordList[lang];
         } else {
             setTimeout(() => setType("gibberish"));
@@ -61,12 +61,10 @@ async function getWords(lang) {
     let start = randrange(1, r.headers.get("content-length") - 1025);
     let h = new Headers();
     h.append("Range", "bytes=" + start + "-" + (parseInt(start + 1024)));
-    let t = await fetch("./words/" + lang + ".json", {
+    let t = await fetch("./words/" + lang + ".txt", {
         headers: h
     }).then(r => r.text());
-    let m = t.match(/^(?:"?[^"]*")?,(".*[^,]")(?:$|,(?:"[^"]*)?$)/);
-    if (!m) throw new Error("Unexpected response");
-    return JSON.parse("[" + m[1] + "]");
+    return t.split("\n").slice(start == 1 ? 0 : 1, -1).filter(x => x.length);
 }
 
 // Keyboard shortcuts
