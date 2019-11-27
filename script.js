@@ -76,8 +76,8 @@ window.addEventListener("keydown", function(event) {
         case "3": setStrength(3); break;
         case "4": setStrength(4); break;
         case "A": case "a": setType("alphanum"); break;
-        case "B": case "b": setType("random"); break;
-        case "C": case "c": setType("gibberish"); break;
+        case "B": case "b": case "R": case "r": setType("random"); break;
+        case "C": case "c": case "G": case "g": setType("gibberish"); break;
         case "D": case "d": setType("passphrase-de"); break;
         case "E": case "e": setType("passphrase-en"); break;
         case " ": update();

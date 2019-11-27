@@ -34,8 +34,8 @@ function help() {
     console.log();
     console.log("  [type]");
     console.log("    A  alphanum");
-    console.log("    B  random");
-    console.log("    C  gibberish (default)");
+    console.log("    R  random");
+    console.log("    G  gibberish (default)");
     console.log("    D  passphrase-de");
     console.log("    E  passphrase-en");
     console.log();
@@ -70,7 +70,9 @@ function help() {
         ["passphrase-de", () => type = "passphrase-de"],
         ["a", () => type = "alphanum"],
         ["b", () => type = "random"],
+        ["r", () => type = "random"],
         ["c", () => type = "gibberish"],
+        ["g", () => type = "gibberish"],
         ["d", () => type = "passphrase-de"],
         ["e", () => type = "passphrase-en"],
     ]
