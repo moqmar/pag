@@ -35,7 +35,7 @@ function update() {
         })
         .catch(err => {
             console.error(err);
-            alert("Couldn't generate a password: " + err.message);
+            if (err.message != "Word list download was interrupted") alert("Couldn't generate a password: " + err.message);
 
             if (working > 1 && (workingType != type || workingStrength != strength)) { working = 0; update(); }
             else { working = 0; document.querySelector(".update").classList.remove("working"); }
@@ -44,26 +44,30 @@ function update() {
 
 // Word lists
 let wordList = {};
-async function getWords(lang) {
+async function getWords(lang, check) {
     if (wordList[lang] != null) return wordList[lang];
     let r = await fetch("./words/" + lang + ".txt", {
         method: "HEAD"
     })
-    if ((window.location.hash||"").match(/nochunks/) || (r.headers.get("accept-ranges")||"").match(/^$|^none$/)) {
-        if ((window.location.hash||"").match(/nochunks/) || confirm("Passphrases require a word list. As this server doesn't support partial requests, the full list needs to be downloaded to generate passphrases.\n\nDownload size: " + (r.headers.get("content-length") / 1024 / 1024).toFixed(2) + " MB")) {
+    if ((window.location.hash||"").match(/nochunks/) || (r.headers.get("accept-ranges")||"").match(/^$|^none$/) || r.headers.get("content-length") < 1024) {
+        if (check) return false;
+        if ((window.location.hash||"").match(/nochunks/) || confirm("Passphrases require a word list. As this server doesn't support partial requests, the full list needs to be downloaded to generate passphrases.\n\nDownload size: " + (r.headers.get("content-length") < 1024 ? "unknown" : (r.headers.get("content-length") / 1024 / 1024).toFixed(2) + " MB"))) {
             wordList[lang] = await fetch("./words/" + lang + ".txt").then(r => r.text()).then(t => t.split(/\n/).filter(x => x.length));
+            document.querySelector('[data-type="passphrase-' + lang + '"]').classList.remove("inactive");
             return wordList[lang];
         } else {
             setTimeout(() => setType("gibberish"));
             throw new Error("Word list download was interrupted");
         }
     }
+    if (check) return true;
     let start = randrange(1, r.headers.get("content-length") - 1025);
     let h = new Headers();
     h.append("Range", "bytes=" + start + "-" + (parseInt(start + 1024)));
     let t = await fetch("./words/" + lang + ".txt", {
         headers: h
     }).then(r => r.text());
+    document.querySelector('[data-type="passphrase-' + lang + '"]').classList.remove("inactive");
     return t.split("\n").slice(start == 1 ? 0 : 1, -1).filter(x => x.length);
 }
 
@@ -92,3 +96,8 @@ function selectText() {
     sel.removeAllRanges();
     sel.addRange(r);
 }
+
+(async function() {
+    if (!(await getWords("de", true))) document.querySelector('[data-type="passphrase-de"]').classList.add("inactive");
+    if (!(await getWords("en", true))) document.querySelector('[data-type="passphrase-en"]').classList.add("inactive");
+})()
