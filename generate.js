@@ -10,7 +10,7 @@ const crypto = (typeof window === "undefined" ? {getRandomValues:(arr) => requir
 function randrange(min, max) {
     var range = max - min;
     if (range <= 0) {
-        throw new Exception('max must be larger than min');
+        throw new Error('max must be larger than min');
     }
     var requestBytes = Math.ceil(Math.log2(range) / 8);
     if (!requestBytes) { // No randomness required
@@ -73,9 +73,8 @@ async function generate(type, strength) {
                     w = w.substr(0, j) + w.substr(j, 1).toUpperCase() + w.substr(j+1);
                 }
             }
-            pw += r(separator) +
-                  (strength > 2 && randrange(0,3)==0 ? randrange(1,10000) + r(separator) : "") +
-                  w;
+            if (pw.length) pw += r(separator) + (strength > 2 && randrange(0,3)==0 ? randrange(1,10000) + r(separator) : "");
+            pw += w;
         }
         if (strength == 2) pw += r(separator) + randrange(1,1000);
     }

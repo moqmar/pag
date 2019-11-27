@@ -1,6 +1,6 @@
 {
   "name": "pag-cli",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "The probably user-friendliest password generator out there. Generates random strings, gibberish (pronounceable passwords), or 'correct-horse-battery-staple' passphrases in English or German.",
   "main": "generate.js",
   "bin": {
